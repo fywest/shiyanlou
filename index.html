@@ -1,0 +1,38 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Title</title>#}
+{#    <h1>hello world</h1>#}
+{#</head>#}
+{#<body>#}
+{#{% from 'marco.html' import course_item %}#}
+{#<div>{{ course_itme(course) }}</div>#}
+{#</body>#}
+{#</html>#}
+
+{#<p> type:{{ type }}</p>#}
+{#<p> name:{{ course.name }}</p>#}
+{#<p> user count:{{ course.user_count }}</p>#}
+{#<p> teacher:{{ course.teacher }}</p>#}
+{#<p> is_private:{{ course.is_private }}</p>#}
+
+{#{% macro course_item(course,type="bootstrap") %}#}
+{#    <div>#}
+{#        <p> type:{{ type }}</p>#}
+{#        <p> name:{{ course.name }}</p>#}
+{#        <p> user count:{{ course.user_count }}</p>#}
+{#        <p> teacher:{{ course.teacher }}</p>#}
+{#        <p> is_private:{{ course.is_private }}</p>#}
+{#    </div>#}
+{#{% endmacro %}#}
+{##}
+{##}
+{#<div>{{ course_item(course) }}</div>#}
+{#<p>{{ '='*20 }}</p>#}
+{#<div>{{ course_item(course,type="louplus") }}</div>#}
+
+
+
+{% from 'marco.html' import course_item %}
+<div> {{ course_itme(course) }} </div>
