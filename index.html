@@ -33,6 +33,17 @@
 {#<div>{{ course_item(course,type="louplus") }}</div>#}
 
 
+{##}
+{#{% from 'macro.html' import course_item %}#}
+{#<div> {{ course_item(course) }} </div>#}
 
+{% extends "base.html" %}
 {% from 'macro.html' import course_item %}
-<div> {{ course_item(course) }} </div>
+
+{% block header %}
+    <h1> header </h1>
+{% endblock %}
+
+{% block content %}
+    {{ course_item(course) }}
+{% endblock %}
