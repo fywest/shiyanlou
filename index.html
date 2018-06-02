@@ -6,10 +6,23 @@
 
 {% block content %}
     <div>
-    <p><a href={{id_dict.1}}>{{ title_dict.1}}</a></p>
-    <p><a href={{id_dict.2}}>{{ title_dict.2}}</a></p>
+    {% for title in title_data %}
+
+        <p><a href={{title.link}}>{{ title.title}}</a></p>
+
+        {% for tag in title.tag %}
+        <p>{{tag}}</p>
+        {% endfor %}
+
+    {% endfor %}
+
     </div>
+
 {% endblock %}
+
+<nav>
+
+</nav>
 
 {% block footer  %}
     <h1></h1>

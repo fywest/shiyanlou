@@ -35,7 +35,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Java'),(2,'Python'),(3,'SQL'),(4,'Linux');
+INSERT INTO `category` VALUES (1,'Java'),(2,'Python');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,7 +91,7 @@ CREATE TABLE `file` (
 
 LOCK TABLES `file` WRITE;
 /*!40000 ALTER TABLE `file` DISABLE KEYS */;
-INSERT INTO `file` VALUES (111,'Hello Java','2018-05-29 13:07:21',1,'File Content - Java is cool!'),(666,'Hello Python','2018-05-29 13:07:21',2,'File Content - Python is cool!');
+INSERT INTO `file` VALUES (111,'Hello Java','2018-05-29 13:07:21',1,'File Content - Java is cool!'),(222,'Hello Python','2018-05-29 13:07:21',2,'File Content - Python is cool!');
 /*!40000 ALTER TABLE `file` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,4 +130,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-02 12:58:50
+-- Dump completed on 2018-05-30 17:06:01

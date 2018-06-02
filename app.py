@@ -9,11 +9,12 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 from datetime import datetime
 
-
+from pymongo import MongoClient
 
 app=Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI']='mysql://fywest:990113@localhost/shiyanlou'
+#app.config['SQLALCHEMY_DATABASE_URI']='mysql://root@localhost/shiyanlou'
 db=SQLAlchemy(app)
 
 class Category(db.Model):
@@ -36,6 +37,7 @@ class File(db.Model):
     created_time=db.Column(db.DateTime)
     category_id=db.Column(db.Integer, ForeignKey('category.id'))
     content = db.Column(db.Text)
+    # tag=[]
 
     def __init__(self, id,title,datetime1,category_id,content):
         self.id=id
@@ -43,65 +45,91 @@ class File(db.Model):
         self.created_time = datetime1
         self.category_id = category_id
         self.content = content
+        # self.tag=[]
+
+    # def add_tags(self,tag_name):
+    #     if tag_name not in self.tag:
+    #         self.tag.append(tag_name)
+    #
+    # def remove_tags(self,tag_name):
+    #     if tag_name in self.tag:
+    #         self.tag.remove(tag_name)
+
 
     def __repr__(self):
         return "<File(title=%s)>" % self.title
 
+
+db.create_all()
+# java = Category(1,'Java')
+# python = Category(2,'Python')
+# file1 = File(1,'Hello Java', datetime.utcnow(), java, 'File Content - Java is cool!')
+# file2 = File(2,'Hello Python', datetime.utcnow(), python, 'File Content - Python is cool!')
+# db.session.add(java)
+# db.session.add(python)
+# db.session.add(file1)
+# db.session.add(file2)
+# db.session.commit()
+
+# sql = Category(3,'SQL')
+# linux = Category(4,'Linux')
+# file3 = File(3,'Hello SQL', datetime.utcnow(), sql, 'File Content - SQL is cool!')
+# file4 = File(4,'Hello linux', datetime.utcnow(), linux, 'File Content - linux is cool!')
+# db.session.add(sql)
+# db.session.add(linux)
+# db.session.add(file3)
+# db.session.add(file4)
+# db.session.commit()
+
+
+# file1.add_tag('tech')
+# file1.add_tag('java')
+# file1.add_tag('linux')
+# file2.add_tag('tech')
+# file2.add_tag('python')
+
+
+
 infoList=db.session.query(File.id,File.title,File.created_time,File.content,Category.name).filter(File.category_id==Category.id).all()
-infoList1=infoList[0]
-infoList2=infoList[1]
 
-list1=[]
-for item in infoList1:
-    list1.append(item)
-info_dict1={}
-info_dict1['id']=list1[0]
-info_dict1['title']=list1[1]
-info_dict1['datetime']=datetime.strftime(list1[2],'%Y-%m-%d %H:%M:%S')
-info_dict1['content']=list1[3]
-info_dict1['category']=list1[4]
-print('****info_dict1*****')
-print(info_dict1)
+list=[]
+title_data=[]
 
-list2=[]
-for item in infoList2:
-    list2.append(item)
+for list in infoList:
+    title_data_dict = {}
+    title_data_dict['id'] = str(list[0])
+    title_data_dict['link'] = 'http://localhost:3000/files/' + str(list[0])
+    title_data_dict['title'] = str(list[1])
+    title_data_dict['datetime'] = str(datetime.strftime(list[2],'%Y-%m-%d %H:%M:%S'))
+    title_data_dict['content'] = str(list[3])
+    title_data_dict['category'] = str(list[4])
 
-info_dict2={}
-info_dict2['id']=list2[0]
-info_dict2['title']=list2[1]
-info_dict2['datetime']=datetime.strftime(list2[2],'%Y-%m-%d %H:%M:%S')
-info_dict2['content']=list2[3]
-info_dict2['category']=list2[4]
-print('****info_dict2*****')
-print(info_dict2)
+    client = MongoClient('127.0.0.1', 27017)
+    db = client.shiyanlou
+    for x in db.tag.find():
+        if x['id'] == title_data_dict['id']:
+            title_data_dict['tag']=x['tag']
+        elif x['id'] == title_data_dict['id']:
+            title_data_dict['tag']=x['tag']
 
-id_dict={}
-id_dict[1]='http://localhost:3000/files/'+str(info_dict1['id'])
-id_dict[2]='http://localhost:3000/files/'+str(info_dict2['id'])
-print('****id_dict*****')
-print(id_dict)
+    title_data.append(title_data_dict)
 
-title_dict={}
-title_dict[1]=str(info_dict1['title'])
-title_dict[2]=str(info_dict2['title'])
-print('****title_dict*****')
-print(title_dict)
+print('****title_data*****')
+print(title_data)
+
 
 @app.route('/')
 def index():
-    return render_template('index.html',title_dict=title_dict,id_dict=id_dict)
+    return render_template('index.html',title_data=title_data)
+
 
 
 @app.route('/files/<fileId>')
 def file(fileId):
-    if(int(fileId)==int(info_dict1['id'])):
-        return render_template('file.html',hello=info_dict1)
-    elif (int(fileId)==int(info_dict2['id'])):
-        return render_template('file.html', hello=info_dict2)
-    else:
-        return render_template('404.html')
-
+    for i in range(len(title_data)):
+        if (int(fileId) == int(title_data[i]['id'])):
+            return render_template('file.html', hello=title_data[i])
+    return render_template('404.html')
 
 @app.errorhandler(404)
 def not_found(error):
