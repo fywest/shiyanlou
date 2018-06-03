@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+    {% for title in title_data %}
+
+        <p><a href={{title.link}}><span class="label label-primary">{{ title.title}}</span></a></p>
+
+        {% for tag in title.tag %}
+            <p>{{tag}}</p>
+        {% endfor %}
+
+
+    {% endfor %}
+    </div>
+
+
+<input type="button" onclick="myFunction()" value="show warning" />
+
+{% endblock %}
