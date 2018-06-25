@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for flask_doc project
+# Scrapy settings for douban_movie project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,17 +9,17 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'flask_doc'
+BOT_NAME = 'douban_movie'
 
-SPIDER_MODULES = ['flask_doc.spiders']
-NEWSPIDER_MODULE = 'flask_doc.spiders'
+SPIDER_MODULES = ['douban_movie.spiders']
+NEWSPIDER_MODULE = 'douban_movie.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'flask_doc (+http://www.yourdomain.com)'
+#USER_AGENT = 'douban_movie (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -27,13 +27,13 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -47,14 +47,18 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'flask_doc.middlewares.FlaskDocSpiderMiddleware': 543,
+#    'douban_movie.middlewares.DoubanMovieSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'flask_doc.middlewares.FlaskDocDownloaderMiddleware': 543,
+#    'douban_movie.middlewares.DoubanMovieDownloaderMiddleware': 543,
 #}
+DOWNLOADER_MIDDLEWARES = {
+    'douban_movie.middlewares.UserAgentMiddleware': 200,
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -65,8 +69,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'flask_doc.pipelines.FlaskDocPipeline': 300,
-
+   'douban_movie.pipelines.DoubanMoviePipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
